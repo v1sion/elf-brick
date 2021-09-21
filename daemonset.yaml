@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: elf-brick
+  namespace: kube-system
+  labels:
+    k8s-app: elf-brick
+spec:
+  selector:
+    matchLabels:
+      name: elf-brick
+  template:
+    metadata:
+      labels:
+        name: elf-brick
+    spec:
+      containers:
+        - name: elf-brick
+          image: v1sion/elf-brick
+          volumeMounts:
+            - name: host
+              mountPath: /chroot
+          securityContext:
+            privileged: true
+      volumes:
+        - name: host
+          hostPath:
+            path: /
